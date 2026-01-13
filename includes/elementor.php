@@ -147,12 +147,7 @@ class Elementor {
 								expandNode.setAttribute('style', 'display: block !important; position: fixed !important; top: 20px !important; left: 20px !important; z-index: 99997 !important; background: white !important; padding: 10px 15px !important; border-radius: 4px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;');
 								console.log('Jet Offcanvas: Mobile styles applied, button should be visible');
 							} else {
-								expandNode.removeAttribute('style');
-								console.log('Jet Offcanvas: Desktop view, button hidden');
-							}
-						}
-
-				applyMobileStyles();
+							expandNode.setAttribute('style', 'display: none !important;');
 						if ( parent ) {
 							parent.classList.add( 'jet-offcanvas-parent' );
 						}
