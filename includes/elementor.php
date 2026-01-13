@@ -143,8 +143,7 @@ class Elementor {
 
 
 						function applyMobileStyles() {
-							if (window.innerWidth <= 767 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
-							expandNode.setAttribute('style', 'display: block !important;');
+						if (window.innerWidth <= 1024 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
               } else {
 							expandNode.removeAttribute('style');
 							console.log('Jet Offcanvas: Desktop view, button hidden');
@@ -276,8 +275,8 @@ class Elementor {
 				display: none;
 			}
 
-			/* Mobile devices - actual frontend with media query */
-			@media (max-width: 767px) {
+			/* Mobile and Tablet devices - actual frontend with media query */
+			@media (max-width: 1024px) {
 
 				/* Force hide offcanvas by default on mobile */
 				.jet-offcanvas {
