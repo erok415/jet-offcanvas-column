@@ -239,9 +239,26 @@ class Elementor {
 
 			/* Mobile devices - actual frontend with media query */
 			@media (max-width: 767px) {
-				.jet-offcanvas-trigger-wrap {
+				/* The expand button wrapper positioned outside offcanvas */
+				.jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
 					display: block !important;
-					padding: 0;
+					position: fixed !important;
+					top: 20px !important;
+					left: 20px !important;
+					z-index: 99997 !important;
+					background: #fff !important;
+					padding: 10px 15px !important;
+					border-radius: 4px !important;
+					box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+				}
+
+				/* The collapse button inside offcanvas */
+				.jet-offcanvas > .jet-offcanvas-trigger-wrap,
+				.jet-offcanvas .elementor-element-populated > .jet-offcanvas-trigger-wrap {
+					display: block !important;
+					padding: 15px !important;
+					background: #f5f5f5 !important;
+					border-bottom: 1px solid #ddd !important;
 				}
 
 				/* Show expand button by default, hide collapse button */
@@ -253,32 +270,39 @@ class Elementor {
 					display: inline-flex !important;
 				}
 
-				/* When offcanvas is active, hide expand and show collapse */
-				.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+				/* When offcanvas is active, hide expand button */
+				.jet-offcanvas-parent.is-active > .jet-offcanvas-trigger-wrap {
 					display: none !important;
 				}
 
-				.jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-				.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+				/* When offcanvas is active, show collapse button */
+				.jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+				.jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
 					display: inline-flex !important;
 				}
 
+				.jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
+				.jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+					display: none !important;
+				}
+
+				/* Hide the offcanvas container by default */
 				.jet-offcanvas {
-					position: fixed;
-					left: -100vw;
-					top: 0;
+					position: fixed !important;
+					left: -100vw !important;
+					top: 0 !important;
 					max-width: 90vw !important;
 					width: 90vw !important;
-					bottom: 0;
-					display: block;
-					z-index: 99999;
-					background: #fff;
-					overflow: auto;
-					transition: left 300ms ease-in-out;
+					bottom: 0 !important;
+					display: block !important;
+					z-index: 99999 !important;
+					background: #fff !important;
+					overflow: auto !important;
+					transition: left 300ms ease-in-out !important;
 				}
 
 				.jet-offcanvas.is-active {
-					left: 0;
+					left: 0 !important;
 				}
 
 				.jet-offcanvas-parent.is-active:before {
@@ -294,6 +318,10 @@ class Elementor {
 					transition: opacity 300ms ease-in-out;
 				}
 
+				body.admin-bar .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
+					top: 66px !important;
+				}
+
 				body.admin-bar .jet-offcanvas > .jet-offcanvas-trigger-wrap,
 				body.admin-bar .elementor-element-populated > .jet-offcanvas-trigger-wrap {
 					margin-top: 46px;
@@ -301,10 +329,27 @@ class Elementor {
 			}
 
 			/* Elementor editor preview mode */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap {
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
 				display: block !important;
-				padding: 0;
+				position: fixed !important;
+				top: 20px !important;
+				left: 20px !important;
+				z-index: 99997 !important;
+				background: #fff !important;
+				padding: 10px 15px !important;
+				border-radius: 4px !important;
+				box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+			}
+
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas > .jet-offcanvas-trigger-wrap,
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas .elementor-element-populated > .jet-offcanvas-trigger-wrap,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas > .jet-offcanvas-trigger-wrap,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas .elementor-element-populated > .jet-offcanvas-trigger-wrap {
+				display: block !important;
+				padding: 15px !important;
+				background: #f5f5f5 !important;
+				border-bottom: 1px solid #ddd !important;
 			}
 
 			/* Show expand button by default in editor, hide collapse */
@@ -318,37 +363,46 @@ class Elementor {
 				display: inline-flex !important;
 			}
 
-			/* When active in editor, hide expand and show collapse */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+			/* When active in editor, hide expand button */
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active > .jet-offcanvas-trigger-wrap,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active > .jet-offcanvas-trigger-wrap {
 				display: none !important;
 			}
 
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+			/* When active in editor, show collapse button */
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
 				display: inline-flex !important;
 			}
 
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+				display: none !important;
+			}
+
+			/* Hide offcanvas in editor preview */
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas,
 			body[data-elementor-device-mode="tablet"] .jet-offcanvas {
-				position: fixed;
-				left: -100vw;
-				top: 0;
+				position: fixed !important;
+				left: -100vw !important;
+				top: 0 !important;
 				max-width: 90vw !important;
 				width: 90vw !important;
-				bottom: 0;
-				display: block;
-				z-index: 99999;
-				background: #fff;
-				overflow: auto;
-				transition: left 300ms ease-in-out;
+				bottom: 0 !important;
+				display: block !important;
+				z-index: 99999 !important;
+				background: #fff !important;
+				overflow: auto !important;
+				transition: left 300ms ease-in-out !important;
 			}
 
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active,
 			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active {
-				left: 0;
+				left: 0 !important;
 			}
 
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active:before,
@@ -363,6 +417,10 @@ class Elementor {
 				background: rgba(0, 0, 0, .8);
 				opacity: 1;
 				transition: opacity 300ms ease-in-out;
+			}
+
+			body[data-elementor-device-mode="mobile"].admin-bar .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
+				top: 66px !important;
 			}
 
 			body[data-elementor-device-mode="mobile"].admin-bar .jet-offcanvas > .jet-offcanvas-trigger-wrap,
