@@ -116,6 +116,7 @@ class Elementor {
 
 	public function js_handler() {
 		error_log('JET OFFCANVAS DEBUG: js_handler() called - outputting JavaScript');
+		?>
 <script type="text/javascript">
 (function() {
 	'use strict';
