@@ -155,6 +155,19 @@ class Elementor {
 					applyMobileStyles();
 
 					window.addEventListener('resize', applyMobileStyles);
+					const observer = new MutationObserver(function(mutations) {
+						mutations.forEach(function(mutation) {
+							if (mutation.type === 'attributes' && mutation.attributeName === 'data-elementor-device-mode') {
+								console.log('Jet Offcanvas: Elementor device mode changed, updating button visibility');
+								applyMobileStyles();
+							}
+						});
+					});
+
+					observer.observe(document.body, {
+						attributes: true,
+						attributeFilter: ['data-elementor-device-mode']
+					});
 						if ( parent ) {
 							parent.classList.add( 'jet-offcanvas-parent' );
 						}
