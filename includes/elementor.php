@@ -100,25 +100,33 @@ class Elementor {
 	}
 
 	public function js_handler() {
-
 		?>
-		<script>
-			(function() {
+<script type="text/javascript">
+(function() {
+	'use strict';
+	
+	function initOffcanvas() {
+		try {
+			const offcanavs = document.querySelectorAll('.jet-offcanvas');
+			console.log('Jet Offcanvas: Found ' + offcanavs.length + ' offcanvas elements');
 
-				function initOffcanvas() {
-					const offcanavs = document.querySelectorAll( '.jet-offcanvas' );
+			offcanavs.forEach( ( offcanv ) => {
 
-					console.log('Jet Offcanvas: Found ' + offcanavs.length + ' offcanvas elements');
+				if ( offcanv.dataset.jetOffcanvasInitialized ) {
+					console.log('Jet Offcanvas: Element already initialized, skipping');
+					return;
+				}
 
-					offcanavs.forEach( ( offcanv ) => {
+				if (!offcanv.dataset.jetOffcanvas) {
+					console.error('Jet Offcanvas: Element missing data-jet-offcanvas attribute', offcanv);
+					return;
+				}
 
-						if ( offcanv.dataset.jetOffcanvasInitialized ) {
-							return;
-						}
+				console.log('Jet Offcanvas: Initializing element with data:', offcanv.dataset.jetOffcanvas);
 
-						offcanv.dataset.jetOffcanvasInitialized = true;
+				offcanv.dataset.jetOffcanvasInitialized = true;
 
-						let parent = offcanv.parentNode;
+				let parent = offcanv.parentNode;
 						let settings = JSON.parse( offcanv.dataset.jetOffcanvas );
 						let expandNode = document.createElement( 'div' );
 						let collapseNode = document.createElement( 'div' );
@@ -229,21 +237,28 @@ class Elementor {
 							}
 						} );
 					});
+				} catch(error) {
+					console.error('Jet Offcanvas Error:', error);
 				}
+			}
 
-				// Run on DOM ready
-				if (document.readyState === 'loading') {
-					document.addEventListener('DOMContentLoaded', initOffcanvas);
-				} else {
-					initOffcanvas();
-				}
+			// Run on DOM ready
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initOffcanvas);
+			} else {
+				initOffcanvas();
+			}
 
-				// Also run when Elementor preview loads
+			// Also run when Elementor preview loads
+			if (typeof window.elementorFrontend !== 'undefined') {
 				window.addEventListener('elementor/frontend/init', initOffcanvas);
-			})()
-		</script>
-		<?php
-
+			}
+		} catch(error) {
+			console.error('Jet Offcanvas Fatal Error:', error);
+		}
+})();
+</script>
+<?php
 	}
 
 	public function add_styles() {
