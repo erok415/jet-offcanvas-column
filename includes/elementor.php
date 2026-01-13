@@ -311,9 +311,6 @@ class Elementor {
 				/* The collapse button inside offcanvas */
 				.jet-offcanvas-collapse-wrap {
 					display: block !important;
-					padding: 15px !important;
-					/* background: #f5f5f5 !important;
-					border-bottom: 1px solid #ddd !important; */
 				}
 
 				.jet-offcanvas-parent.is-active:before {
@@ -370,9 +367,6 @@ class Elementor {
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas-collapse-wrap,
 			body[data-elementor-device-mode="tablet"] .jet-offcanvas-collapse-wrap {
 				display: block !important;
-				padding: 15px !important;
-				background: #f5f5f5 !important;
-				border-bottom: 1px solid #ddd !important;
 			}
 
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active:before,
