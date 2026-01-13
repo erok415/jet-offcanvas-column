@@ -83,9 +83,21 @@ class Elementor {
 	}
 
 	public function add_icon( $icon, $text ) {
+		// Validate icon data before rendering
+		if ( empty( $icon ) || ! is_array( $icon ) || empty( $icon['value'] ) ) {
+			return $text;
+		}
+
 		ob_start();
 		Icons_Manager::render_icon( $icon, [ 'aria-hidden' => 'true' ] );
-		return '<div class="jet-offcanvas-icon">' . ob_get_clean() . '</div>' . $text;
+		$icon_html = ob_get_clean();
+
+		// Only add icon wrapper if we got valid output
+		if ( ! empty( $icon_html ) ) {
+			return '<div class="jet-offcanvas-icon">' . $icon_html . '</div>' . $text;
+		}
+
+		return $text;
 	}
 
 	public function js_handler() {
