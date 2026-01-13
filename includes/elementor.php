@@ -144,7 +144,7 @@ class Elementor {
 
 						function applyMobileStyles() {
 						if (window.innerWidth <= 1024 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
-							expandNode.setAttribute('style', 'display: block !important;');
+						expandNode.setAttribute('style', 'display: block !important; grid-column: 1 / -1 !important;');
 							console.log('Jet Offcanvas: Mobile styles applied, button should be visible');
 						} else {
 							expandNode.removeAttribute('style');
@@ -292,17 +292,8 @@ class Elementor {
 					display: block !important;
 					z-index: 99999 !important;
 					background: #fff !important;
-					overflow: auto !important;				grid-column: 1 / -1 !important;					transition: left 300ms ease-in-out !important;
-				}
-
-				.jet-offcanvas.is-active {
-					left: 0 !important;
-				}
-
-				/* The expand button wrapper - created by JS with inline styles */
-				.jet-offcanvas-expand-wrap {
-					/* Inline styles will handle visibility */
-				}
+				overflow: auto !important;
+				transition: left 300ms ease-in-out !important;
 
 				/* Hide expand button when active */
 				.jet-offcanvas-parent.is-active > .jet-offcanvas-expand-wrap {
@@ -325,10 +316,6 @@ class Elementor {
 					background: rgba(0, 0, 0, .8);
 					opacity: 1;
 					transition: opacity 300ms ease-in-out;
-				}
-
-				body.admin-bar .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
-					top: 66px !important;
 				}
 
 				body.admin-bar .jet-offcanvas > .jet-offcanvas-trigger-wrap,
@@ -382,10 +369,6 @@ class Elementor {
 				background: rgba(0, 0, 0, .8);
 				opacity: 1;
 				transition: opacity 300ms ease-in-out;
-			}
-
-			body[data-elementor-device-mode="mobile"].admin-bar .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
-				top: 66px !important;
 			}
 
 			body[data-elementor-device-mode="mobile"].admin-bar .jet-offcanvas > .jet-offcanvas-trigger-wrap,
