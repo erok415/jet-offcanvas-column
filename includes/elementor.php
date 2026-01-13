@@ -252,12 +252,7 @@ class Elementor {
 								}
 							}
 						} );
-					});
-				} catch(error) {
-					console.error('Jet Offcanvas Error:', error);
-				}
-			}
-
+			});
 		} catch(error) {
 			console.error('Jet Offcanvas Error:', error);
 		}
