@@ -144,13 +144,16 @@ class Elementor {
 
 						function applyMobileStyles() {
 						if (window.innerWidth <= 1024 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
-              } else {
+							expandNode.setAttribute('style', 'display: block !important;');
+							console.log('Jet Offcanvas: Mobile styles applied, button should be visible');
+						} else {
 							expandNode.removeAttribute('style');
 							console.log('Jet Offcanvas: Desktop view, button hidden');
 						}
 					}
 
 					applyMobileStyles();
+
 					window.addEventListener('resize', applyMobileStyles);
 						if ( parent ) {
 							parent.classList.add( 'jet-offcanvas-parent' );
