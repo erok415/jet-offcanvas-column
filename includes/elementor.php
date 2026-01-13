@@ -134,8 +134,22 @@ class Elementor {
 						expandNode.innerHTML = '<div class="jet-offcanvas-expand jet-offcanvas-trigger" tabindex="0">' + settings.expand + '</div>';
 						collapseNode.innerHTML = '<div class="jet-offcanvas-collapse jet-offcanvas-trigger" tabindex="0">' + settings.collapse + '</div>';
 
-						// Add inline styles to force visibility on mobile
-						expandNode.setAttribute('style', 'display: block !important; position: fixed !important; top: 20px !important; left: 20px !important; z-index: 99997 !important; background: white !important; padding: 10px 15px !important; border-radius: 4px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;');
+						// Function to apply mobile styles
+						function applyMobileStyles() {
+							if (window.innerWidth <= 767 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
+								expandNode.setAttribute('style', 'display: block !important; position: fixed !important; top: 20px !important; left: 20px !important; z-index: 99997 !important; background: white !important; padding: 10px 15px !important; border-radius: 4px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;');
+								console.log('Jet Offcanvas: Mobile styles applied, button should be visible');
+							} else {
+								expandNode.removeAttribute('style');
+								console.log('Jet Offcanvas: Desktop view, button hidden');
+							}
+						}
+						
+						// Apply styles initially
+						applyMobileStyles();
+						
+						// Reapply on window resize
+						window.addEventListener('resize', applyMobileStyles);
 
 						if ( parent ) {
 							parent.classList.add( 'jet-offcanvas-parent' );
