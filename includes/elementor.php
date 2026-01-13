@@ -181,7 +181,6 @@ class Elementor {
 							expandNode.style.display = 'block';
 						} );
 
-						// Close offcanvas on escape key
 						document.addEventListener( 'keydown', ( event ) => {
 							if ( event.key === 'Escape' && offcanv.classList.contains( 'is-active' ) ) {
 								offcanv.classList.remove( 'is-active' );
