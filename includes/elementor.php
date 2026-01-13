@@ -106,101 +106,127 @@ class Elementor {
 		<script>
 			(function() {
 
-				const offcanavs = document.querySelectorAll( '.jet-offcanvas' );
+				function initOffcanvas() {
+					const offcanavs = document.querySelectorAll( '.jet-offcanvas' );
 
-				offcanavs.forEach( ( offcanv ) => {
+					console.log('Jet Offcanvas: Found ' + offcanavs.length + ' offcanvas elements');
 
-					if ( offcanv.dataset.jetOffcanvasInitialized ) {
-						return;
-					}
+					offcanavs.forEach( ( offcanv ) => {
 
-					offcanv.dataset.jetOffcanvasInitialized = true;
+						if ( offcanv.dataset.jetOffcanvasInitialized ) {
+							return;
+						}
 
-					let parent = offcanv.parentNode;
-					let settings = JSON.parse( offcanv.dataset.jetOffcanvas );
-					let expandNode = document.createElement( 'div' );
-					let collapseNode = document.createElement( 'div' );
+						offcanv.dataset.jetOffcanvasInitialized = true;
 
-					expandNode.classList.add( 'jet-offcanvas-trigger-wrap' );
-					collapseNode.classList.add( 'jet-offcanvas-trigger-wrap' );
+						let parent = offcanv.parentNode;
+						let settings = JSON.parse( offcanv.dataset.jetOffcanvas );
+						let expandNode = document.createElement( 'div' );
+						let collapseNode = document.createElement( 'div' );
 
-					expandNode.classList.add( 'jet-offcanvas-' + offcanv.dataset.id );
+						expandNode.classList.add( 'jet-offcanvas-trigger-wrap' );
+						collapseNode.classList.add( 'jet-offcanvas-trigger-wrap' );
+						expandNode.classList.add( 'jet-offcanvas-expand-wrap' );
+						collapseNode.classList.add( 'jet-offcanvas-collapse-wrap' );
 
-					expandNode.innerHTML = '<div class="jet-offcanvas-expand jet-offcanvas-trigger" tabindex="0">' + settings.expand + '</div>';
-					collapseNode.innerHTML = '<div class="jet-offcanvas-collapse jet-offcanvas-trigger" tabindex="0">' + settings.collapse + '</div>';
+						expandNode.classList.add( 'jet-offcanvas-' + offcanv.dataset.id );
 
-					if ( parent ) {
-						parent.classList.add( 'jet-offcanvas-parent' );
-					}
+						expandNode.innerHTML = '<div class="jet-offcanvas-expand jet-offcanvas-trigger" tabindex="0">' + settings.expand + '</div>';
+						collapseNode.innerHTML = '<div class="jet-offcanvas-collapse jet-offcanvas-trigger" tabindex="0">' + settings.collapse + '</div>';
 
-					if ( offcanv.classList.contains( 'elementor-column' ) ) {
-						offcanv.querySelector( '.elementor-element-populated' ).prepend( collapseNode );
-					} else {
-						offcanv.prepend( collapseNode );
-					}
+						// Add inline styles to force visibility on mobile
+						expandNode.setAttribute('style', 'display: block !important; position: fixed !important; top: 20px !important; left: 20px !important; z-index: 99997 !important; background: white !important; padding: 10px 15px !important; border-radius: 4px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;');
 
-					parent.prepend( expandNode );
+						if ( parent ) {
+							parent.classList.add( 'jet-offcanvas-parent' );
+						}
 
-					expandNode.firstElementChild.addEventListener( 'click', () => {
-						offcanv.classList.add( 'is-active' );
-						parent.classList.add( 'is-active' );
-						document.body.style.overflow = 'hidden';
-					} );
+						if ( offcanv.classList.contains( 'elementor-column' ) ) {
+							offcanv.querySelector( '.elementor-element-populated' ).prepend( collapseNode );
+						} else {
+							offcanv.prepend( collapseNode );
+						}
 
-					collapseNode.firstElementChild.addEventListener( 'click', () => {
-						offcanv.classList.remove( 'is-active' );
-						parent.classList.remove( 'is-active' );
-						document.body.style.overflow = '';
-					} );
+						parent.prepend( expandNode );
 
-					// Close offcanvas on escape key
-					document.addEventListener( 'keydown', ( event ) => {
-						if ( event.key === 'Escape' && offcanv.classList.contains( 'is-active' ) ) {
+						console.log('Jet Offcanvas: Button created for element', offcanv.dataset.id);
+
+						expandNode.firstElementChild.addEventListener( 'click', () => {
+							offcanv.classList.add( 'is-active' );
+							parent.classList.add( 'is-active' );
+							document.body.style.overflow = 'hidden';
+							expandNode.style.display = 'none';
+						} );
+
+						collapseNode.firstElementChild.addEventListener( 'click', () => {
 							offcanv.classList.remove( 'is-active' );
 							parent.classList.remove( 'is-active' );
 							document.body.style.overflow = '';
-						}
-					} );
+							expandNode.style.display = 'block';
+						} );
 
-					document.addEventListener( 'click', ( event ) => {
-
-						// if element diractly has required class - close offcanvas
-						if ( event.target.classList.contains( 'offcanvas-collapse' ) ) {
-							offcanv.classList.remove( 'is-active' );
-							parent.classList.remove( 'is-active' );
-							return;
-						}
-
-						// if its button inside element with required class - also close offcanvas
-						if ( 'BUTTON' === event.target.tagName ) {
-							let parentTarget = event.target.closest( '.offcanvas-collapse' );
-							if ( parentTarget ) {
+						// Close offcanvas on escape key
+						document.addEventListener( 'keydown', ( event ) => {
+							if ( event.key === 'Escape' && offcanv.classList.contains( 'is-active' ) ) {
 								offcanv.classList.remove( 'is-active' );
 								parent.classList.remove( 'is-active' );
+								document.body.style.overflow = '';
+								expandNode.style.display = 'block';
+							}
+						} );
+
+						document.addEventListener( 'click', ( event ) => {
+
+							// if element diractly has required class - close offcanvas
+							if ( event.target.classList.contains( 'offcanvas-collapse' ) ) {
+								offcanv.classList.remove( 'is-active' );
+								parent.classList.remove( 'is-active' );
+								expandNode.style.display = 'block';
 								return;
 							}
-						}
 
-						// if element diractly has required class - open offcanvas
-						if ( event.target.classList.contains( 'offcanvas-expand' ) ) {
-							offcanv.classList.add( 'is-active' );
-							parent.classList.add( 'is-active' );
-							return;
-						}
+							// if its button inside element with required class - also close offcanvas
+							if ( 'BUTTON' === event.target.tagName ) {
+								let parentTarget = event.target.closest( '.offcanvas-collapse' );
+								if ( parentTarget ) {
+									offcanv.classList.remove( 'is-active' );
+									parent.classList.remove( 'is-active' );
+									expandNode.style.display = 'block';
+									return;
+								}
+							}
 
-						// if its button inside element with required class - also open offcanvas
-						if ( 'BUTTON' === event.target.tagName ) {
-							let parentTarget = event.target.closest( '.offcanvas-expand' );
-							if ( parentTarget ) {
+							// if element diractly has required class - open offcanvas
+							if ( event.target.classList.contains( 'offcanvas-expand' ) ) {
 								offcanv.classList.add( 'is-active' );
 								parent.classList.add( 'is-active' );
+								expandNode.style.display = 'none';
 								return;
 							}
-						}
-					} );
 
-				});
+							// if its button inside element with required class - also open offcanvas
+							if ( 'BUTTON' === event.target.tagName ) {
+								let parentTarget = event.target.closest( '.offcanvas-expand' );
+								if ( parentTarget ) {
+									offcanv.classList.add( 'is-active' );
+									parent.classList.add( 'is-active' );
+									expandNode.style.display = 'none';
+									return;
+								}
+							}
+						} );
+					});
+				}
 
+				// Run on DOM ready
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', initOffcanvas);
+				} else {
+					initOffcanvas();
+				}
+
+				// Also run when Elementor preview loads
+				window.addEventListener('elementor/frontend/init', initOffcanvas);
 			})()
 		</script>
 		<?php
@@ -239,54 +265,8 @@ class Elementor {
 
 			/* Mobile devices - actual frontend with media query */
 			@media (max-width: 767px) {
-				/* The expand button wrapper positioned outside offcanvas */
-				.jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
-					display: block !important;
-					position: fixed !important;
-					top: 20px !important;
-					left: 20px !important;
-					z-index: 99997 !important;
-					background: #fff !important;
-					padding: 10px 15px !important;
-					border-radius: 4px !important;
-					box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-				}
-
-				/* The collapse button inside offcanvas */
-				.jet-offcanvas > .jet-offcanvas-trigger-wrap,
-				.jet-offcanvas .elementor-element-populated > .jet-offcanvas-trigger-wrap {
-					display: block !important;
-					padding: 15px !important;
-					background: #f5f5f5 !important;
-					border-bottom: 1px solid #ddd !important;
-				}
-
-				/* Show expand button by default, hide collapse button */
-				.jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
-					display: none !important;
-				}
-
-				.jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
-					display: inline-flex !important;
-				}
-
-				/* When offcanvas is active, hide expand button */
-				.jet-offcanvas-parent.is-active > .jet-offcanvas-trigger-wrap {
-					display: none !important;
-				}
-
-				/* When offcanvas is active, show collapse button */
-				.jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-				.jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
-					display: inline-flex !important;
-				}
-
-				.jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
-				.jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
-					display: none !important;
-				}
-
-				/* Hide the offcanvas container by default */
+				
+				/* Force hide offcanvas by default on mobile */
 				.jet-offcanvas {
 					position: fixed !important;
 					left: -100vw !important;
@@ -303,6 +283,24 @@ class Elementor {
 
 				.jet-offcanvas.is-active {
 					left: 0 !important;
+				}
+				
+				/* The expand button wrapper - created by JS with inline styles */
+				.jet-offcanvas-expand-wrap {
+					/* Inline styles will handle visibility */
+				}
+
+				/* Hide expand button when active */
+				.jet-offcanvas-parent.is-active > .jet-offcanvas-expand-wrap {
+					display: none !important;
+				}
+
+				/* The collapse button inside offcanvas */
+				.jet-offcanvas-collapse-wrap {
+					display: block !important;
+					padding: 15px !important;
+					background: #f5f5f5 !important;
+					border-bottom: 1px solid #ddd !important;
 				}
 
 				.jet-offcanvas-parent.is-active:before {
@@ -329,62 +327,6 @@ class Elementor {
 			}
 
 			/* Elementor editor preview mode */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent > .jet-offcanvas-trigger-wrap {
-				display: block !important;
-				position: fixed !important;
-				top: 20px !important;
-				left: 20px !important;
-				z-index: 99997 !important;
-				background: #fff !important;
-				padding: 10px 15px !important;
-				border-radius: 4px !important;
-				box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-			}
-
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas > .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas .elementor-element-populated > .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas > .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas .elementor-element-populated > .jet-offcanvas-trigger-wrap {
-				display: block !important;
-				padding: 15px !important;
-				background: #f5f5f5 !important;
-				border-bottom: 1px solid #ddd !important;
-			}
-
-			/* Show expand button by default in editor, hide collapse */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
-				display: none !important;
-			}
-
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
-				display: inline-flex !important;
-			}
-
-			/* When active in editor, hide expand button */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active > .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active > .jet-offcanvas-trigger-wrap {
-				display: none !important;
-			}
-
-			/* When active in editor, show collapse button */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
-				display: inline-flex !important;
-			}
-
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active .elementor-element-populated > .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
-				display: none !important;
-			}
-
-			/* Hide offcanvas in editor preview */
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas,
 			body[data-elementor-device-mode="tablet"] .jet-offcanvas {
 				position: fixed !important;
@@ -403,6 +345,21 @@ class Elementor {
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active,
 			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active {
 				left: 0 !important;
+			}
+
+			/* Hide expand button when active in editor */
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active > .jet-offcanvas-expand-wrap,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active > .jet-offcanvas-expand-wrap {
+				display: none !important;
+			}
+
+			/* Collapse button style in editor */
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-collapse-wrap,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-collapse-wrap {
+				display: block !important;
+				padding: 15px !important;
+				background: #f5f5f5 !important;
+				border-bottom: 1px solid #ddd !important;
 			}
 
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active:before,
