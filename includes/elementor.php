@@ -292,8 +292,7 @@ class Elementor {
 					display: block !important;
 					z-index: 99999 !important;
 					background: #fff !important;
-					overflow: auto !important;
-					transition: left 300ms ease-in-out !important;
+					overflow: auto !important;				grid-column: 1 / -1 !important;					transition: left 300ms ease-in-out !important;
 				}
 
 				.jet-offcanvas.is-active {
