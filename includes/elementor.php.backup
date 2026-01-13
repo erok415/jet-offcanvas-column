@@ -114,8 +114,8 @@ class Elementor {
 
 					expandNode.classList.add( 'jet-offcanvas-' + offcanv.dataset.id );
 
-					expandNode.innerHTML = '<div class="jet-offcanvas-expand jet-offcanvas-trigger" tabindex="0">' + settings.expand + '</div>';
-					collapseNode.innerHTML = '<div class="jet-offcanvas-collapse jet-offcanvas-trigger" tabindex="0">' + settings.collapse + '</div>';
+					expandNode.innerHTML = '<div class="jet-offcanvas-expand jet-offcanvas-trigger" tabindex="-1">' + settings.expand + '</div>';
+					collapseNode.innerHTML = '<div class="jet-offcanvas-collapse jet-offcanvas-trigger" tabindex="-1">' + settings.collapse + '</div>';
 
 					if ( parent ) {
 						parent.classList.add( 'jet-offcanvas-parent' );
@@ -132,22 +132,11 @@ class Elementor {
 					expandNode.firstElementChild.addEventListener( 'click', () => {
 						offcanv.classList.add( 'is-active' );
 						parent.classList.add( 'is-active' );
-						document.body.style.overflow = 'hidden';
 					} );
 
 					collapseNode.firstElementChild.addEventListener( 'click', () => {
 						offcanv.classList.remove( 'is-active' );
 						parent.classList.remove( 'is-active' );
-						document.body.style.overflow = '';
-					} );
-
-					// Close offcanvas on escape key
-					document.addEventListener( 'keydown', ( event ) => {
-						if ( event.key === 'Escape' && offcanv.classList.contains( 'is-active' ) ) {
-							offcanv.classList.remove( 'is-active' );
-							parent.classList.remove( 'is-active' );
-							document.body.style.overflow = '';
-						}
 					} );
 
 					document.addEventListener( 'click', ( event ) => {
@@ -204,7 +193,6 @@ class Elementor {
 				justify-content: flex-start;
 				align-items: center;
 				gap: 10px;
-				cursor: pointer;
 			}
 
 			.jet-offcanvas-icon {
@@ -225,59 +213,12 @@ class Elementor {
 				display: none;
 			}
 
-			/* Mobile devices - actual frontend with media query */
-			@media (max-width: 767px) {
-				.jet-offcanvas-trigger-wrap {
-					display: block;
-					padding: 0;
-				}
-
-				.jet-offcanvas {
-					position: fixed;
-					left: -100vw;
-					top: 0;
-					max-width: 90vw !important;
-					width: 90vw !important;
-					bottom: 0;
-					display: block;
-					z-index: 99999;
-					background: #fff;
-					overflow: auto;
-					transition: left 300ms ease-in-out;
-				}
-
-				.jet-offcanvas.is-active {
-					left: 0;
-				}
-
-				.jet-offcanvas-parent.is-active:before {
-					content: '';
-					position: fixed;
-					left: 0;
-					top: 0;
-					right: 0;
-					bottom: 0;
-					z-index: 99998;
-					background: rgba(0, 0, 0, .8);
-					opacity: 1;
-					transition: opacity 300ms ease-in-out;
-				}
-
-				body.admin-bar .jet-offcanvas > .jet-offcanvas-trigger-wrap,
-				body.admin-bar .elementor-element-populated > .jet-offcanvas-trigger-wrap {
-					margin-top: 46px;
-				}
-			}
-
-			/* Elementor editor preview mode */
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap {
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap {
 				display: block;
 				padding: 0;
 			}
 
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas {
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas {
 				position: fixed;
 				left: -100vw;
 				top: 0;
@@ -288,16 +229,20 @@ class Elementor {
 				z-index: 99999;
 				background: #fff;
 				overflow: auto;
-				transition: left 300ms ease-in-out;
+				transition: left 200ms linear;
 			}
 
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active {
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active {
 				left: 0;
 			}
 
-			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active:before,
-			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active:before {
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active:before {
+				opacity: 0;
+				content: '';
+				transition: left 200ms linear;
+			}
+
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active:before {
 				content: '';
 				position: fixed;
 				left: 0;
@@ -307,9 +252,7 @@ class Elementor {
 				z-index: 99998;
 				background: rgba(0, 0, 0, .8);
 				opacity: 1;
-				transition: opacity 300ms ease-in-out;
 			}
-
 			body[data-elementor-device-mode="mobile"].admin-bar .jet-offcanvas > .jet-offcanvas-trigger-wrap,
 			body[data-elementor-device-mode="mobile"].admin-bar .elementor-element-populated > .jet-offcanvas-trigger-wrap {
 				margin-top: 46px;
@@ -360,13 +303,10 @@ class Elementor {
 				],
 				'selectors' => [
 					'body[data-elementor-device-mode="mobile"] .jet-offcanvas.elementor-element-{{ID}}' => 'width: {{SIZE}}{{UNIT}} !important;max-width: {{SIZE}}{{UNIT}} !important;',
-					'body[data-elementor-device-mode="tablet"] .jet-offcanvas.elementor-element-{{ID}}' => 'width: {{SIZE}}{{UNIT}} !important;max-width: {{SIZE}}{{UNIT}} !important;',
-					'@media (max-width: 767px)' => [
-						'.jet-offcanvas.elementor-element-{{ID}}' => 'width: {{SIZE}}{{UNIT}} !important;max-width: {{SIZE}}{{UNIT}} !important;',
-					],
 				],
 				'condition'  => array(
 					'jet_offcanvas_enabled' => 'yes',
+					'jet_offcanvas_expand_icon!' => '',
 				),
 			]
 		);
@@ -521,7 +461,7 @@ class Elementor {
 					],
 				],
 				'selectors' => [
-					'.jet-offcanvas-{{ID}} .jet-offcanvas-expand .jet-offcanvas-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+					'.jet-offcanvas-{{ID}} .jet-offcanvas-icon' => 'font-size: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => array(
 					'jet_offcanvas_enabled' => 'yes',
@@ -651,7 +591,7 @@ class Elementor {
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .jet-offcanvas-collapse .jet-offcanvas-icon' => 'font-size: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .jet-offcanvas-icon' => 'font-size: {{SIZE}}{{UNIT}};',
 				],
 				'condition'  => array(
 					'jet_offcanvas_enabled' => 'yes',

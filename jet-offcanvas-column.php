@@ -3,7 +3,7 @@
  * Plugin Name: Jet Offcanvas Column
  * Plugin URI:  #
  * Description: Allow to make column offcanvas on mobile devices.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      Crocoblock
  * Author URI:  https://crocoblock.com/
  * Text Domain: jet-offcanvas-column
@@ -21,7 +21,7 @@ add_action( 'plugins_loaded', 'jet_occ_init' );
 
 function jet_occ_init() {
 
-	define( 'JET_OCC_VERSION', '1.0.0' );
+	define( 'JET_OCC_VERSION', '1.1.0' );
 	define( 'JET_OCC__FILE__', __FILE__ );
 	define( 'JET_OCC_PLUGIN_BASE', plugin_basename( JET_OCC__FILE__ ) );
 	define( 'JET_OCC_PATH', plugin_dir_path( JET_OCC__FILE__ ) );
