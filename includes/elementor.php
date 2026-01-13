@@ -53,9 +53,17 @@ class Elementor {
 		$offcanvas = ! empty( $settings['jet_offcanvas_enabled'] ) ? $settings['jet_offcanvas_enabled'] : false;
 		$offcanvas = filter_var( $offcanvas, FILTER_VALIDATE_BOOLEAN );
 
+		// Debug logging
+		error_log('JET OFFCANVAS DEBUG: before_element_render called');
+		error_log('JET OFFCANVAS DEBUG: jet_offcanvas_enabled = ' . var_export($settings['jet_offcanvas_enabled'], true));
+		error_log('JET OFFCANVAS DEBUG: offcanvas bool = ' . var_export($offcanvas, true));
+
 		if ( ! $offcanvas ) {
+			error_log('JET OFFCANVAS DEBUG: Offcanvas not enabled, returning early');
 			return;
 		}
+
+		error_log('JET OFFCANVAS DEBUG: Offcanvas IS enabled, proceeding...');
 
 		$expand = ! empty( $settings['jet_offcanvas_expand_text'] ) ? wp_kses_post( $settings['jet_offcanvas_expand_text'] ) : '';
 		$collapse = ! empty( $settings['jet_offcanvas_collapse_text'] ) ? wp_kses_post( $settings['jet_offcanvas_collapse_text'] ) : '';
@@ -74,9 +82,16 @@ class Elementor {
 			'collapse' => $collapse,
 		] ) ) );
 
+		error_log('JET OFFCANVAS DEBUG: Added attributes to element');
+		error_log('JET OFFCANVAS DEBUG: Expand text = ' . $expand);
+		error_log('JET OFFCANVAS DEBUG: Collapse text = ' . $collapse);
+
 		if ( ! $this->initialized ) {
+			error_log('JET OFFCANVAS DEBUG: Adding js_handler to wp_footer');
 			add_action( 'wp_footer', [ $this, 'js_handler' ] );
 			$this->initialized = true;
+		} else {
+			error_log('JET OFFCANVAS DEBUG: js_handler already initialized');
 		}
 
 	}
@@ -100,11 +115,11 @@ class Elementor {
 	}
 
 	public function js_handler() {
-		?>
+		error_log('JET OFFCANVAS DEBUG: js_handler() called - outputting JavaScript');
 <script type="text/javascript">
 (function() {
 	'use strict';
-	
+
 	function initOffcanvas() {
 		try {
 			const offcanavs = document.querySelectorAll('.jet-offcanvas');
