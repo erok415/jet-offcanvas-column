@@ -237,26 +237,30 @@ class Elementor {
 				display: none;
 			}
 
-			/* Show expand button by default on mobile, hide collapse button */
-			.jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
-				display: none;
-			}
-
-			/* When offcanvas is active, hide expand button and show collapse button */
-			.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
-				display: none;
-			}
-
-			.jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
-			.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
-				display: inline-flex;
-			}
-
 			/* Mobile devices - actual frontend with media query */
 			@media (max-width: 767px) {
 				.jet-offcanvas-trigger-wrap {
-					display: block;
+					display: block !important;
 					padding: 0;
+				}
+
+				/* Show expand button by default, hide collapse button */
+				.jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+					display: none !important;
+				}
+
+				.jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+					display: inline-flex !important;
+				}
+
+				/* When offcanvas is active, hide expand and show collapse */
+				.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+					display: none !important;
+				}
+
+				.jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+				.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+					display: inline-flex !important;
 				}
 
 				.jet-offcanvas {
@@ -299,8 +303,32 @@ class Elementor {
 			/* Elementor editor preview mode */
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap,
 			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap {
-				display: block;
+				display: block !important;
 				padding: 0;
+			}
+
+			/* Show expand button by default in editor, hide collapse */
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+				display: none !important;
+			}
+
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+				display: inline-flex !important;
+			}
+
+			/* When active in editor, hide expand and show collapse */
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+				display: none !important;
+			}
+
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="mobile"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			body[data-elementor-device-mode="tablet"] .jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+				display: inline-flex !important;
 			}
 
 			body[data-elementor-device-mode="mobile"] .jet-offcanvas,
