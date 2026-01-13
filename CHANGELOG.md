@@ -30,6 +30,9 @@
 - Supports both Elementor Columns and Containers
 - Works with WordPress admin bar
 
+### Contributors
+- Elementor 3.34.x compatibility and mobile functionality improvements by [Erik Cochran](https://github.com/erok415) at [Molly Duggan Associates](https://www.mollyduggan.com/)
+
 ---
 
 ## Version 1.0.0
