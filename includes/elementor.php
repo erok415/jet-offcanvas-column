@@ -237,6 +237,21 @@ class Elementor {
 				display: none;
 			}
 
+			/* Show expand button by default on mobile, hide collapse button */
+			.jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+				display: none;
+			}
+
+			/* When offcanvas is active, hide expand button and show collapse button */
+			.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-expand {
+				display: none;
+			}
+
+			.jet-offcanvas.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse,
+			.jet-offcanvas-parent.is-active .jet-offcanvas-trigger-wrap .jet-offcanvas-collapse {
+				display: inline-flex;
+			}
+
 			/* Mobile devices - actual frontend with media query */
 			@media (max-width: 767px) {
 				.jet-offcanvas-trigger-wrap {
