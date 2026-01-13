@@ -258,20 +258,22 @@ class Elementor {
 				}
 			}
 
-			// Run on DOM ready
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initOffcanvas);
-			} else {
-				initOffcanvas();
-			}
-
-			// Also run when Elementor preview loads
-			if (typeof window.elementorFrontend !== 'undefined') {
-				window.addEventListener('elementor/frontend/init', initOffcanvas);
-			}
 		} catch(error) {
-			console.error('Jet Offcanvas Fatal Error:', error);
+			console.error('Jet Offcanvas Error:', error);
 		}
+	}
+
+	// Run on DOM ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initOffcanvas);
+	} else {
+		initOffcanvas();
+	}
+
+	// Also run when Elementor preview loads
+	if (typeof window.elementorFrontend !== 'undefined') {
+		window.addEventListener('elementor/frontend/init', initOffcanvas);
+	}
 })();
 </script>
 <?php
