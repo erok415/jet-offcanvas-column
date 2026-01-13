@@ -151,7 +151,7 @@ class Elementor {
 					}
 
 					applyMobileStyles();
-
+					window.addEventListener('resize', applyMobileStyles);
 						if ( parent ) {
 							parent.classList.add( 'jet-offcanvas-parent' );
 						}
