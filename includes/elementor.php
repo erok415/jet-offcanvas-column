@@ -312,8 +312,8 @@ class Elementor {
 				.jet-offcanvas-collapse-wrap {
 					display: block !important;
 					padding: 15px !important;
-					background: #f5f5f5 !important;
-					border-bottom: 1px solid #ddd !important;
+					/* background: #f5f5f5 !important;
+					border-bottom: 1px solid #ddd !important; */
 				}
 
 				.jet-offcanvas-parent.is-active:before {
