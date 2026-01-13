@@ -141,7 +141,7 @@ class Elementor {
 						expandNode.innerHTML = '<div class="jet-offcanvas-expand jet-offcanvas-trigger" tabindex="0">' + settings.expand + '</div>';
 						collapseNode.innerHTML = '<div class="jet-offcanvas-collapse jet-offcanvas-trigger" tabindex="0">' + settings.collapse + '</div>';
 
-						// Function to apply mobile styles
+
 						function applyMobileStyles() {
 							if (window.innerWidth <= 767 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
 								expandNode.setAttribute('style', 'display: block !important; position: fixed !important; top: 20px !important; left: 20px !important; z-index: 99997 !important; background: white !important; padding: 10px 15px !important; border-radius: 4px !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;');
@@ -152,12 +152,7 @@ class Elementor {
 							}
 						}
 
-						// Apply styles initially
-						applyMobileStyles();
-
-						// Reapply on window resize
-						window.addEventListener('resize', applyMobileStyles);
-
+				applyMobileStyles();
 						if ( parent ) {
 							parent.classList.add( 'jet-offcanvas-parent' );
 						}
@@ -198,7 +193,6 @@ class Elementor {
 
 						document.addEventListener( 'click', ( event ) => {
 
-							// if element diractly has required class - close offcanvas
 							if ( event.target.classList.contains( 'offcanvas-collapse' ) ) {
 								offcanv.classList.remove( 'is-active' );
 								parent.classList.remove( 'is-active' );
@@ -206,7 +200,6 @@ class Elementor {
 								return;
 							}
 
-							// if its button inside element with required class - also close offcanvas
 							if ( 'BUTTON' === event.target.tagName ) {
 								let parentTarget = event.target.closest( '.offcanvas-collapse' );
 								if ( parentTarget ) {
@@ -217,7 +210,6 @@ class Elementor {
 								}
 							}
 
-							// if element diractly has required class - open offcanvas
 							if ( event.target.classList.contains( 'offcanvas-expand' ) ) {
 								offcanv.classList.add( 'is-active' );
 								parent.classList.add( 'is-active' );
@@ -225,7 +217,6 @@ class Elementor {
 								return;
 							}
 
-							// if its button inside element with required class - also open offcanvas
 							if ( 'BUTTON' === event.target.tagName ) {
 								let parentTarget = event.target.closest( '.offcanvas-expand' );
 								if ( parentTarget ) {
@@ -242,14 +233,12 @@ class Elementor {
 		}
 	}
 
-	// Run on DOM ready
 	if (document.readyState === 'loading') {
 		document.addEventListener('DOMContentLoaded', initOffcanvas);
 	} else {
 		initOffcanvas();
 	}
 
-	// Also run when Elementor preview loads
 	if (typeof window.elementorFrontend !== 'undefined') {
 		window.addEventListener('elementor/frontend/init', initOffcanvas);
 	}
