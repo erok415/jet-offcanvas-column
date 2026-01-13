@@ -145,6 +145,7 @@ class Elementor {
 						function applyMobileStyles() {
 							if (window.innerWidth <= 767 || document.body.getAttribute('data-elementor-device-mode') === 'mobile' || document.body.getAttribute('data-elementor-device-mode') === 'tablet') {
 							expandNode.setAttribute('style', 'display: block !important;');
+              } else {
 							expandNode.removeAttribute('style');
 							console.log('Jet Offcanvas: Desktop view, button hidden');
 						}
