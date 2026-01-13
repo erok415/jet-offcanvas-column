@@ -19,14 +19,14 @@ class Elementor {
 
 		add_action('wp_enqueue_scripts', [ $this, 'add_styles' ] );
 
-		add_action( 
+		add_action(
 			'elementor/element/column/section_advanced/after_section_end',
-			[ $this, 'add_settings' ], 10, 2 
+			[ $this, 'add_settings' ], 10, 2
 		);
 
 		add_action(
 			'elementor/element/container/section_layout/after_section_end',
-			[ $this, 'add_settings' ], 10, 2 
+			[ $this, 'add_settings' ], 10, 2
 		);
 
 		add_action( 'elementor/frontend/column/before_render', [ $this, 'before_element_render' ] );
@@ -48,7 +48,7 @@ class Elementor {
 	}
 
 	public function before_element_render( $element ) {
-		
+
 		$settings = $element->get_settings_for_display();
 		$offcanvas = ! empty( $settings['jet_offcanvas_enabled'] ) ? $settings['jet_offcanvas_enabled'] : false;
 		$offcanvas = filter_var( $offcanvas, FILTER_VALIDATE_BOOLEAN );
