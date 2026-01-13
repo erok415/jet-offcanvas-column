@@ -75,7 +75,6 @@ class Elementor {
 		] ) ) );
 
 		if ( ! $this->initialized ) {
-			$this->js_handler();
 			add_action( 'wp_footer', [ $this, 'js_handler' ] );
 			$this->initialized = true;
 		}
@@ -144,10 +143,10 @@ class Elementor {
 								console.log('Jet Offcanvas: Desktop view, button hidden');
 							}
 						}
-						
+
 						// Apply styles initially
 						applyMobileStyles();
-						
+
 						// Reapply on window resize
 						window.addEventListener('resize', applyMobileStyles);
 
@@ -279,7 +278,7 @@ class Elementor {
 
 			/* Mobile devices - actual frontend with media query */
 			@media (max-width: 767px) {
-				
+
 				/* Force hide offcanvas by default on mobile */
 				.jet-offcanvas {
 					position: fixed !important;
@@ -298,7 +297,7 @@ class Elementor {
 				.jet-offcanvas.is-active {
 					left: 0 !important;
 				}
-				
+
 				/* The expand button wrapper - created by JS with inline styles */
 				.jet-offcanvas-expand-wrap {
 					/* Inline styles will handle visibility */
